@@ -39,6 +39,17 @@ class Deputy {
 // Але якщо при таких самих усовах хабар складає 1050, то він буде вагатись.
 //
 // !!! Хабарником рахується людина, в якої рівень чесності нижчий за 50 !!!
+    bribery(bribe: number): string {
+        if (this.degreeOfHonesty < 50) {
+            if (bribe < this.minimalSum) {
+                return 'not successful'
+            } else if (bribe > this.minimalSum + (this.minimalSum * this.degreeOfHonesty / 100)) {
+                return 'the deal is successful'
+            } else {
+                return 'let think about it'
+            }
+        } else return 'u went to the wrong person'
+    }
 
 }
 
@@ -62,8 +73,11 @@ let parubii = new Deputy('Andrij Parubij', 34, EGender.MALE, 60, 50000);
 let zabrodskiy = new Deputy('Mykhajlo Zabrodskiy', 47, EGender.MALE, 90, 1000000);
 let jemilyev = new Deputy('Mustafa Jemilyev', 77, EGender.MALE, 99, 5000000);
 let zinkevych = new Deputy('Jana Zinkevych', 26, EGender.FEMALE, 70, 50000);
+console.log(parubii.bribery(100));
+console.log(kozak.bribery(200));
+console.log(kozak.bribery(1000));
+console.log(kozak.bribery(301));
 
-//
 // 2) Партія
 //    - назва
 //    - голова (Депутат)
@@ -74,26 +88,66 @@ class PoliticalParty {
     headOfParty: Deputy;
     partyPolitician: Array<Deputy>
 
-    constructor(name: string, headOfParty: Deputy, partyPolitician?: Array<Deputy>) {
+    constructor(name: string, headOfParty: Deputy, partyPolitician: Array<Deputy>) {
         this.name = name;
         this.headOfParty = headOfParty;
         this.partyPolitician = partyPolitician;
     }
 
 // - додати\видалити депутата з фракції
+    addDeputy(deputy: Deputy) {
+return this.partyPolitician.push(deputy)
+    }
+
+    deleteDeputy(deputy: Deputy) {
+        this.partyPolitician.filter(deputy => this.name !== deputy.name)
+    }
 
 // - вивести всіх хабарників фракції
+    showAllBribers() {
+        this.partyPolitician.filter(deputy => deputy.degreeOfHonesty < 50)
+
+    }
 
 // - вивести найбільшого хабарника у фрації
+    showTheBiggestBriber() {
+
+    }
 
 // - вивести фсіх депутатів фракції
+    showAllDeputies() {
+
+    }
 }
 
-let servant = new PoliticalParty('Servant of th People', razumkov);
-let fatherland = new PoliticalParty('Fatherland', tymoshenko);
-let platform = new  PoliticalParty('Opposition Platform — For Life', medvedchuk)
-// як зробити так що очікується неповний масив
+let servant = new PoliticalParty('Servant of the People', brown,[]);
+let fatherland = new PoliticalParty('Fatherland', tymoshenko,[]);
+let platform = new PoliticalParty('Opposition Platform — For Life', medvedchuk,[]);
+let bpp = new PoliticalParty('European Solidarity', poroh,[]);
+console.log(servant)
+// як зробити так що очікується неповний обєкт наприклад без масиву депутатів але не використовуючи елвіса
 
+servant.addDeputy(razumkov); //як можна зробити щоб приймало депутатів в одній команді через кому
+console.log(servant)
+// servant.addDeputy(stefanchuk);
+// servant.addDeputy(brown);
+// servant.addDeputy(venediktova);
+// servant.addDeputy(ivanisov);
+// fatherland.addDeputy(tymoshenko);
+// fatherland.addDeputy(sobolev);
+// fatherland.addDeputy(taruta);
+// fatherland.addDeputy(nalyvajchenko);
+// fatherland.addDeputy(cymbalyuk);
+// platform.addDeputy(bojko);
+// platform.addDeputy(medvedchuk);
+// platform.addDeputy(rabinovich);
+// platform.addDeputy(lovochkina);
+// platform.addDeputy(kozak);
+// bpp.addDeputy(poroh);
+// bpp.addDeputy(parubii);
+// bpp.addDeputy(zabrodskiy);
+// bpp.addDeputy(jemilyev);
+// bpp.addDeputy(zinkevych);
 
 
 // 3) Верхрвна рада
@@ -101,15 +155,14 @@ let platform = new  PoliticalParty('Opposition Platform — For Life', medvedchu
 //    - решті полів на вибір
 
 class VerkhovnaRada {
-    private _parliament: Array<PoliticalParty>;
     chairman: Deputy;
     convocation: number;
     massMedia: string;
     location: string;
+    private _parliament: Array<PoliticalParty>;
 
-
-    constructor(parliament: Array<PoliticalParty>, chairman: Deputy, convocation: number,
-                massMedia: string, location: string) {
+    constructor(chairman: Deputy, convocation: number, massMedia: string,
+                location: string, parliament?: Array<PoliticalParty>,) {
         this._parliament = parliament;
         this.chairman = chairman;
         this.convocation = convocation;
@@ -117,11 +170,32 @@ class VerkhovnaRada {
         this.location = location;
     }
 
-    // - додати\видалити фракцію
-    // - вивести всі фракції
-    // - вивести конкретну фракцію
-// - вивести найбільшого хабарника верховної ради
+    addFraction(fraction: PoliticalParty) {
+    }
 
+    deleteFraction(fraction: PoliticalParty) {
+
+    }
+
+    // - вивести всі фракції
+
+    showAllFraction() {
+
+    }
+
+
+    // - вивести конкретну фракцію
+
+    showFraction(fraction: PoliticalParty) {
+
+    }
+
+    // - вивести найбільшого хабарника верховної ради
+    showTheBiggestBriberAtAll() {
+
+    }
 
 }
+
+let VR9 = new VerkhovnaRada(razumkov, 9, 'Voice of Ukraine', 'Constitution Square')
 

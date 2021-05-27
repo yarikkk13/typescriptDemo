@@ -50,7 +50,6 @@ class Deputy {
             }
         } else return 'u went to the wrong person'
     }
-
 }
 
 let razumkov = new Deputy('Dmytro Razumkov', 37, EGender.MALE, 70, 5000);
@@ -92,18 +91,18 @@ class PoliticalParty {
         this.name = name;
         this.headOfParty = headOfParty;
         this.partyPolitician = partyPolitician;
-    }
+    };
 
 // - додати\видалити депутата з фракції
     addDeputy(deputy: Deputy) {
         return this.partyPolitician.push(deputy)
-    }
+    };
 
     deleteDeputy(deputy: Deputy) {
         this.partyPolitician = this.partyPolitician.filter(value => {
             return value.name !== deputy.name
         })
-    }
+    };
 
 // - вивести всіх хабарників фракції
     showAllBribers() {
@@ -113,18 +112,23 @@ class PoliticalParty {
             }
         })
 
-    }
+    };
 
 // - вивести найбільшого хабарника у фрації
     showTheBiggestBriber() {
+        let theBiggestBriber = this.partyPolitician.reduce((acc: Deputy, currentValue: Deputy) => {
 
-    }
+            if (acc.degreeOfHonesty > currentValue.degreeOfHonesty)
+                acc = currentValue;
+            return acc;
+        })
+        console.log(theBiggestBriber)
+    };
 
 // - вивести фсіх депутатів фракції
     showAllDeputies() {
         this.partyPolitician.forEach(value => console.log(value))
-    }
-
+    };
 }
 
 let servant = new PoliticalParty('Servant of the People', brown);
@@ -132,7 +136,8 @@ let fatherland = new PoliticalParty('Fatherland', tymoshenko);
 let platform = new PoliticalParty('Opposition Platform — For Life', medvedchuk);
 let bpp = new PoliticalParty('European Solidarity', poroh);
 
-// як зробити так що очікується неповний обєкт наприклад без масиву депутатів але не використовуючи елвіса
+// як зробити так що очікується неповний обєкт наприклад без масиву депутатів
+// але не використовуючи елвіса або | оператора або за замовчуванням пустий об'єкт
 console.log(servant)
 servant.addDeputy(razumkov); //як можна зробити щоб приймало депутатів в одній команді через кому
 servant.addDeputy(stefanchuk);
@@ -156,17 +161,20 @@ bpp.addDeputy(zabrodskiy);
 bpp.addDeputy(jemilyev);
 bpp.addDeputy(zinkevych);
 
-// console.log('____________________');
-// bpp.showAllDeputies();
-// console.log('____________________');
-//
-// console.log('____________________');
-// servant.showAllBribers();
-// console.log('____________________');
+console.log('____________________');
+bpp.showAllDeputies();
+console.log('____________________');
+
+console.log('____________________');
+servant.showAllBribers();
+console.log('____________________');
 console.log('____________________');
 servant.deleteDeputy(venediktova)
 console.log('____________________');
-servant.showAllDeputies()
+servant.showAllDeputies();
+servant.addDeputy(venediktova)
+console.log('____________________');
+servant.showTheBiggestBriber()
 
 
 // 3) Верхрвна рада
@@ -178,11 +186,11 @@ class VerkhovnaRada {
     convocation: number;
     massMedia: string;
     location: string;
-    private _parliament: Array<PoliticalParty>;
+    parliament: Array<PoliticalParty>;
 
     constructor(chairman: Deputy, convocation: number, massMedia: string,
-                location: string, parliament?: Array<PoliticalParty>,) {
-        this._parliament = parliament;
+                location: string, parliament: Array<PoliticalParty> = []) {
+        this.parliament = parliament;
         this.chairman = chairman;
         this.convocation = convocation;
         this.massMedia = massMedia;
@@ -190,31 +198,73 @@ class VerkhovnaRada {
     }
 
     addFraction(fraction: PoliticalParty) {
-    }
+        return this.parliament.push(fraction)
+    };
 
     deleteFraction(fraction: PoliticalParty) {
-
-    }
+        this.parliament = this.parliament.filter(value => {
+            return value.name !== fraction.name
+        })
+    };
 
     // - вивести всі фракції
 
     showAllFraction() {
-
+        this.parliament.forEach(value => console.log(value))
     }
-
 
     // - вивести конкретну фракцію
 
     showFraction(fraction: PoliticalParty) {
+        this.parliament.forEach(value => {
+            if (value.name == fraction.name) {
+                console.log(value)
+            }
+        })
 
     }
 
     // - вивести найбільшого хабарника верховної ради
     showTheBiggestBriberAtAll() {
+        let biggestBribers = [];
+        this.parliament.forEach(value => {
+            let theBiggestAtAll = value.partyPolitician.reduce((acc: Deputy, value: Deputy) => {
+                if (acc.degreeOfHonesty > value.degreeOfHonesty)
+                    acc = value
+                return acc
 
+            })
+            biggestBribers.push(theBiggestAtAll)
+        })
+        console.log(biggestBribers);
+        let b = biggestBribers.reduce((acc: Deputy, value: Deputy) => {
+            if (acc.degreeOfHonesty > value.degreeOfHonesty)
+                acc = value
+            return acc
+        })
+        console.log(b)
     }
-
 }
 
-let VR9 = new VerkhovnaRada(razumkov, 9, 'Voice of Ukraine', 'Constitution Square')
+let VR9 = new VerkhovnaRada(razumkov, 9, 'Voice of Ukraine', 'Constitution Square');
+VR9.addFraction(servant);
+VR9.addFraction(bpp);
+VR9.addFraction(fatherland);
+VR9.addFraction(platform);
+console.log(VR9);
+VR9.deleteFraction(bpp);
+console.log(VR9);
+VR9.addFraction(bpp);
+console.log('_____________');
+VR9.showAllFraction();
+console.log('_____________');
+VR9.showFraction(bpp);
+console.log('_____________');
+console.log('_____________');
+console.log('_____________');
+console.log('_____________');
+console.log('_____________');
+console.log('_____________');
+VR9.showTheBiggestBriberAtAll();
+
 

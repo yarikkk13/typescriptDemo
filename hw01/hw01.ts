@@ -86,9 +86,9 @@ console.log(kozak.bribery(301));
 class PoliticalParty {
     name: string;
     headOfParty: Deputy;
-    partyPolitician: Array<Deputy>
+    partyPolitician: Array<Deputy>;
 
-    constructor(name: string, headOfParty: Deputy, partyPolitician: Array<Deputy>) {
+    constructor(name: string, headOfParty: Deputy, partyPolitician: Array<Deputy> = []) {
         this.name = name;
         this.headOfParty = headOfParty;
         this.partyPolitician = partyPolitician;
@@ -96,16 +96,22 @@ class PoliticalParty {
 
 // - додати\видалити депутата з фракції
     addDeputy(deputy: Deputy) {
-return this.partyPolitician.push(deputy)
+        return this.partyPolitician.push(deputy)
     }
 
     deleteDeputy(deputy: Deputy) {
-        this.partyPolitician.filter(deputy => this.name !== deputy.name)
+        this.partyPolitician = this.partyPolitician.filter(value => {
+            return value.name !== deputy.name
+        })
     }
 
 // - вивести всіх хабарників фракції
     showAllBribers() {
-        this.partyPolitician.filter(deputy => deputy.degreeOfHonesty < 50)
+        this.partyPolitician.forEach(value => {
+            if (value.degreeOfHonesty < 50) {
+                console.log(value)
+            }
+        })
 
     }
 
@@ -116,38 +122,51 @@ return this.partyPolitician.push(deputy)
 
 // - вивести фсіх депутатів фракції
     showAllDeputies() {
-
+        this.partyPolitician.forEach(value => console.log(value))
     }
+
 }
 
-let servant = new PoliticalParty('Servant of the People', brown,[]);
-let fatherland = new PoliticalParty('Fatherland', tymoshenko,[]);
-let platform = new PoliticalParty('Opposition Platform — For Life', medvedchuk,[]);
-let bpp = new PoliticalParty('European Solidarity', poroh,[]);
-console.log(servant)
-// як зробити так що очікується неповний обєкт наприклад без масиву депутатів але не використовуючи елвіса
+let servant = new PoliticalParty('Servant of the People', brown);
+let fatherland = new PoliticalParty('Fatherland', tymoshenko);
+let platform = new PoliticalParty('Opposition Platform — For Life', medvedchuk);
+let bpp = new PoliticalParty('European Solidarity', poroh);
 
-servant.addDeputy(razumkov); //як можна зробити щоб приймало депутатів в одній команді через кому
+// як зробити так що очікується неповний обєкт наприклад без масиву депутатів але не використовуючи елвіса
 console.log(servant)
-// servant.addDeputy(stefanchuk);
-// servant.addDeputy(brown);
-// servant.addDeputy(venediktova);
-// servant.addDeputy(ivanisov);
-// fatherland.addDeputy(tymoshenko);
-// fatherland.addDeputy(sobolev);
-// fatherland.addDeputy(taruta);
-// fatherland.addDeputy(nalyvajchenko);
-// fatherland.addDeputy(cymbalyuk);
-// platform.addDeputy(bojko);
-// platform.addDeputy(medvedchuk);
-// platform.addDeputy(rabinovich);
-// platform.addDeputy(lovochkina);
-// platform.addDeputy(kozak);
-// bpp.addDeputy(poroh);
-// bpp.addDeputy(parubii);
-// bpp.addDeputy(zabrodskiy);
-// bpp.addDeputy(jemilyev);
-// bpp.addDeputy(zinkevych);
+servant.addDeputy(razumkov); //як можна зробити щоб приймало депутатів в одній команді через кому
+servant.addDeputy(stefanchuk);
+servant.addDeputy(brown);
+servant.addDeputy(venediktova);
+servant.addDeputy(ivanisov);
+console.log(servant);
+fatherland.addDeputy(tymoshenko);
+fatherland.addDeputy(sobolev);
+fatherland.addDeputy(taruta);
+fatherland.addDeputy(nalyvajchenko);
+fatherland.addDeputy(cymbalyuk);
+platform.addDeputy(bojko);
+platform.addDeputy(medvedchuk);
+platform.addDeputy(rabinovich);
+platform.addDeputy(lovochkina);
+platform.addDeputy(kozak);
+bpp.addDeputy(poroh);
+bpp.addDeputy(parubii);
+bpp.addDeputy(zabrodskiy);
+bpp.addDeputy(jemilyev);
+bpp.addDeputy(zinkevych);
+
+// console.log('____________________');
+// bpp.showAllDeputies();
+// console.log('____________________');
+//
+// console.log('____________________');
+// servant.showAllBribers();
+// console.log('____________________');
+console.log('____________________');
+servant.deleteDeputy(venediktova)
+console.log('____________________');
+servant.showAllDeputies()
 
 
 // 3) Верхрвна рада

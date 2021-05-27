@@ -226,9 +226,9 @@ class VerkhovnaRada {
 
     // - вивести найбільшого хабарника верховної ради
     showTheBiggestBriberAtAll() {
-        let biggestBribers = [];
+        let biggestBribers:Array<Deputy> = [];
         this.parliament.forEach(value => {
-            let theBiggestAtAll = value.partyPolitician.reduce((acc: Deputy, value: Deputy) => {
+            let theBiggestAtAll:Deputy = value.partyPolitician.reduce((acc: Deputy, value: Deputy) => {
                 if (acc.degreeOfHonesty > value.degreeOfHonesty)
                     acc = value
                 return acc
@@ -237,7 +237,7 @@ class VerkhovnaRada {
             biggestBribers.push(theBiggestAtAll)
         })
         console.log(biggestBribers);
-        let b = biggestBribers.reduce((acc: Deputy, value: Deputy) => {
+        let b:Deputy = biggestBribers.reduce((acc: Deputy, value: Deputy) => {
             if (acc.degreeOfHonesty > value.degreeOfHonesty)
                 acc = value
             return acc
